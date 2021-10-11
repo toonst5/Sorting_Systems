@@ -10,9 +10,8 @@ class sorter: public QObject
     Q_OBJECT
 private:
     QList<int*>* list;
-    QList<QGraphicsLineItem*>* lines;
 public:
-    sorter(QList<int*>&listO,QList<QGraphicsLineItem*>& linesO){list=&listO;lines=&linesO;}
+    sorter(QList<int*>&listO){list=&listO;}
     sorter();
 public slots:
     void BubbleSort();
@@ -20,6 +19,7 @@ public slots:
     //void bucketSort();
 signals:
     void draw(int);
+    void done();
 };
 
 #endif // SORTER_H

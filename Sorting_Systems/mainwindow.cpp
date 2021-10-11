@@ -39,10 +39,21 @@ void mainWindow::starterMenu()
 void mainWindow::draw(int i)
 {
     //scene->clear();
-    int size=list.size();
-    lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
-    i++;
-    lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+    if(i>=0)
+    {
+        int size=list.size();
+        lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+        i++;
+        lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+    }else
+    {
+        for(int x=0;x<list.size();x++)
+        {
+            int size=list.size();
+            lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+        }
+    }
+
 }
 void mainWindow::make()
 {
@@ -58,11 +69,15 @@ void mainWindow::make()
         scene->addItem(lines[i]);
     }
 
-    sorter* sort=new sorter(list,lines);
+    /*
+    sorter* sort=new sorter(list);
     sort->moveToThread(&sortingThread);
     connect(&sortingThread, &QThread::finished, sort, &QObject::deleteLater);
     connect(this, &mainWindow::operate, sort, &sorter::original);
     connect(sort, &sorter::draw, this, &mainWindow::draw);
     sortingThread.start();
-    emit operate();
+    emit operate();*/
+    bucketSort* sort=new bucketSort(list);
+    connect(sort, &bucketSort::drawB, this, &mainWindow::draw);
+    sort->sort();
 }

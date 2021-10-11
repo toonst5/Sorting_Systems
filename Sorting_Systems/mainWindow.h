@@ -6,6 +6,7 @@
 #include "sorter.h"
 #include <QRandomGenerator>
 #include "button.h"
+#include "bucketsort.h"
 
 class mainWindow: public QGraphicsView
 {

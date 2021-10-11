@@ -62,13 +62,14 @@ void sorter::original()
         if(*(*list)[i] <*(*list)[i+1])
         {
             (*list).move(i,i+1);
-            i=0;
             emit draw(i);
+            i=0;
             for(int w=0;w<15000;w++)
             {
                 w++;
             }
         }
     }
+    emit done();
 }
 
