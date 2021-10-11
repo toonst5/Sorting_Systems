@@ -13,7 +13,7 @@ mainWindow::mainWindow(QWidget *parent)
 }
 void mainWindow::starterMenu()
 {
-    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("3dRendering"));
+    QGraphicsTextItem* titleText = new QGraphicsTextItem(QString("Sorting systems"));
     QFont titleFont("comic sans",50);
     titleText->setFont(titleFont);
     int txPos = this->width()/2 - titleText->boundingRect().width()/2;
@@ -36,33 +36,32 @@ void mainWindow::starterMenu()
     scene->addItem(quitButton);
 }
 
-void mainWindow::draw()
+void mainWindow::draw(int i)
 {
-    scene->clear();
-    int loc;
-    for(int i=0;i<list.size();i++)
-    {
-        loc=(1600*i/list.size())+50;
-        QGraphicsLineItem* Line= new QGraphicsLineItem(loc,700,loc,700-*list[i]);
-        scene->addItem(Line);
-    }
-
+    //scene->clear();
+    int size=list.size();
+    lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+    i++;
+    lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
 }
 void mainWindow::make()
 {
     scene->clear();
     int* nr;
+    int size=2000;
     QRandomGenerator* random = new QRandomGenerator();
-    for(int i=0;i<20000;i++)
+    for(int i=0;i<size;i++)
     {
         nr= new int(random->bounded(0,500));
         list.append(nr);
+        lines.append(new QGraphicsLineItem((1600*i/size)+50,700,(1600*i/size)+50,700-*nr));
+        scene->addItem(lines[i]);
     }
 
-    sorter* sort=new sorter(scene,list);
+    sorter* sort=new sorter(list,lines);
     sort->moveToThread(&sortingThread);
     connect(&sortingThread, &QThread::finished, sort, &QObject::deleteLater);
-    connect(this, &mainWindow::operate, sort, &sorter::BubbleSort);
+    connect(this, &mainWindow::operate, sort, &sorter::original);
     connect(sort, &sorter::draw, this, &mainWindow::draw);
     sortingThread.start();
     emit operate();

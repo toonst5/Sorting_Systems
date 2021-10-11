@@ -15,11 +15,12 @@ private:
     QGraphicsScene* scene;
     QList<int*> list;
     void starterMenu();
+    QList<QGraphicsLineItem*> lines;
 public:
     mainWindow(QWidget* parent=NULL);
 public slots:
     void make();
-    void draw();
+    void draw(int);
 signals:
     void operate();
 

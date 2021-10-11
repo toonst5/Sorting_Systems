@@ -45,10 +45,14 @@ void sorter::BubbleSort()
                 temp=(*list)[j];
                 (*list)[j]=(*list)[j+1];
                 (*list)[j+1]=temp;
+                emit draw(j);
+                for(int w=0;w<15000;w++)
+                {
+                    w++;
+                }
             }
-        }        
+        }
     }
-    emit draw();
 }
 
 void sorter::original()
@@ -59,19 +63,12 @@ void sorter::original()
         {
             (*list).move(i,i+1);
             i=0;
+            emit draw(i);
+            for(int w=0;w<15000;w++)
+            {
+                w++;
+            }
         }
     }
-    emit draw();
 }
 
-/*void sorter::draw()
-{
-    cene->clear();
-    int loc;
-    for(int i=0;i<(*list).size();i++)
-    {
-        loc=(1600*i/(*list).size())+50;
-        QGraphicsLineItem* Line= new QGraphicsLineItem(loc,700,loc,700-*(*list)[i]);
-        cene->addItem(Line);
-    }
-}*/
