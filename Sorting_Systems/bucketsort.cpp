@@ -2,12 +2,13 @@
 
 void bucketSort::sort()
 {
+    int size=20;
     doneC=0;
     int place=0;
     QList<int*>* bucket;
     QList<QThread*> threads;
     QList<sorter*> sorters;
-    for(int y=0;y<50;y++)
+    for(int y=0;y<size;y++)
     {
         bucket=new QList<int*>;
         bath.append(bucket);
@@ -15,12 +16,12 @@ void bucketSort::sort()
 
     for(int i=0;i<list->size();i++)
     {
-        while(*(*list)[i]>place*10)
+        while(*(*list)[i]>place*30)
         {
             place++;
-            if(place>49)
+            if(place>size-1)
             {
-                place=49;
+                place=size-1;
                 break;
             }
         }
@@ -35,7 +36,12 @@ void bucketSort::sort()
         sortingThread=new QThread();
         srt->moveToThread(sortingThread);
         connect(sortingThread, &QThread::finished, srt, &QObject::deleteLater);
-        connect(this, &bucketSort::operate, srt, &sorter::original);
+        //connect(this, &bucketSort::operate, srt, &sorter::quickSortStart);
+        //connect(this, &bucketSort::operate, srt, &sorter::insertionSortStart);
+        //connect(this, &bucketSort::operate, srt, &sorter::BubbleSort);
+        //connect(this, &bucketSort::operate, srt, &sorter::BubbleSort);
+        connect(this, &bucketSort::operate, srt, &sorter::heapSortStart);
+        //connect(this, &bucketSort::operate, srt, &sorter::treeSortStart); // ERROR
         //connect(srt, &sorter::draw, this, &bucketSort::draw);
         connect(srt, &sorter::done, this, &bucketSort::done);
         sortingThread->start();
@@ -64,9 +70,9 @@ void bucketSort::fill()
     int x=0;
     for(int i=0;i<bath.size();i++)
     {
-        for(int y=0;y<(*bath[i]).size();y++)
+        for(int y=(*bath[i]).size()-1;y>=0;y--)
         {
-            list[x]=bath[i][y];
+            (*list)[x]=(*bath[i])[y];
             x++;
         }
     }

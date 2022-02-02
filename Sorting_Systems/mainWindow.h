@@ -22,6 +22,7 @@ public:
 public slots:
     void make();
     void draw(int);
+    void sortStart();
 signals:
     void operate();
 

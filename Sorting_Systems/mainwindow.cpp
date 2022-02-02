@@ -50,16 +50,17 @@ void mainWindow::draw(int i)
         for(int x=0;x<list.size();x++)
         {
             int size=list.size();
-            lines[i]->setLine((1600*i/size)+50,700,(1600*i/size)+50,700-*list[i]);
+            lines[x]->setLine((1600*x/size)+50,700,(1600*x/size)+50,700-*list[x]);
         }
     }
 
 }
+
 void mainWindow::make()
 {
     scene->clear();
     int* nr;
-    int size=2000;
+    int size=100000;
     QRandomGenerator* random = new QRandomGenerator();
     for(int i=0;i<size;i++)
     {
@@ -69,14 +70,16 @@ void mainWindow::make()
         scene->addItem(lines[i]);
     }
 
-    /*
-    sorter* sort=new sorter(list);
-    sort->moveToThread(&sortingThread);
-    connect(&sortingThread, &QThread::finished, sort, &QObject::deleteLater);
-    connect(this, &mainWindow::operate, sort, &sorter::original);
-    connect(sort, &sorter::draw, this, &mainWindow::draw);
-    sortingThread.start();
-    emit operate();*/
+    Button* playButton = new Button(QString("Start"));
+    int bxPos = this->width()/2 - playButton->boundingRect().width()/2;
+    int byPos = 50;
+    playButton->setPos(bxPos,byPos);
+    connect(playButton,SIGNAL(clicked()),this,SLOT(sortStart()));
+    scene->addItem(playButton);
+}
+
+void mainWindow::sortStart()
+{
     bucketSort* sort=new bucketSort(list);
     connect(sort, &bucketSort::drawB, this, &mainWindow::draw);
     sort->sort();
