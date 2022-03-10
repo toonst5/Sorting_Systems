@@ -1,3 +1,3 @@
 # Sorting_Systems
 
-12 uur
+30uur
